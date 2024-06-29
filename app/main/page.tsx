@@ -236,7 +236,7 @@ const page = () => {
               <FormItem className="w-full flex flex-col gap-1">
                 <FormLabel>Humidity</FormLabel>
                 <FormControl>
-                  <Input type="numbber" placeholder="Enter Humidity" {...field} />
+                  <Input type="number" placeholder="Enter Humidity" {...field} />
                 </FormControl>
                 {/* <FormDescription>This is  field</FormDescription> */}
                 <FormMessage />
