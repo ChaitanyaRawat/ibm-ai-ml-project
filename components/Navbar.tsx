@@ -49,7 +49,7 @@ const Navbar = () => {
                             {navLinks.map((link) => {
                                 const isActive = link.href === pathname
                                 return (
-                                <li className="font-bold">
+                                <li className="font-bold" key={link.name}>
                                     <Link href={link.href} className={`${isActive ? 'text-blue-500' : 'text-white'} block py-2 pl-3 pr-4 rounded md:p-0`}>{link.name}</Link>
                                 </li>
                             )})}
