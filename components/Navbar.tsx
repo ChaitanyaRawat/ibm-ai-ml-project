@@ -13,7 +13,7 @@ const navLinks = [
         name: "About",
         href: "/about",
     },
-    
+
     {
         name: "Contact",
         href: "/contact",
@@ -22,7 +22,7 @@ const navLinks = [
 
 
 const Navbar = () => {
-    const [isOpen, setIsOpen] = useState<boolean>(true)
+    const [isOpen, setIsOpen] = useState<boolean>(false)
     const pathname = usePathname()
     return (
         <>
@@ -42,18 +42,19 @@ const Navbar = () => {
                         </div>
                     </button>
 
-                    <div className={`items-center justify-between w-full lg:flex lg:w-auto lg:order-1" id="mobile-menu-2 ${isOpen ? '' : 'hidden md:block'}`}>
-                        <ul className="flex flex-col mt-4 font-medium lg:flex-row lg:space-x-8 lg:mt-0">
-                           
+                    <div className={`items-center justify-between w-full md:flex md:w-auto md:order-1" id="mobile-menu-2 ${isOpen ? '' : 'hidden md:block'}`}>
+                        <ul className="flex flex-col mt-4 font-medium md:flex-row md:space-x-8 md:mt-0">
+
 
                             {navLinks.map((link) => {
                                 const isActive = link.href === pathname
                                 return (
-                                <li className="font-bold" key={link.name}>
-                                    <Link href={link.href} className={`${isActive ? 'text-blue-500' : 'text-white'} block py-2 pl-3 pr-4 rounded md:p-0`}>{link.name}</Link>
-                                </li>
-                            )})}
-                            
+                                    <li className="font-bold" key={link.name}>
+                                        <Link href={link.href} className={`${isActive ? 'text-blue-500' : 'text-white'} block py-2 pl-3 pr-4 rounded md:p-0`}>{link.name}</Link>
+                                    </li>
+                                )
+                            })}
+
                         </ul>
                     </div>
                 </div>

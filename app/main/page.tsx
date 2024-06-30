@@ -15,41 +15,67 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import mainFormValidation from "@/lib/validation/mainForm"
-import { useState } from "react"
+import { ChangeEvent, useState } from "react"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
-import { cn } from "@/lib/utils"
+import { cn, getDateComponents } from "@/lib/utils"
 import { format } from "date-fns"
 import { Calendar } from "@/components/ui/calendar"
 import { CalendarIcon } from "lucide-react"
 import { useToast } from "@/components/ui/use-toast"
+import { Label } from "@/components/ui/label"
 
+
+const dateSchema = z
+  .string()
+  .refine((val) => !isNaN(Date.parse(val)), 'Invalid date format')
+  .transform((val) => new Date(val));
 
 
 const page = () => {
+  const [date, setDate] = useState<string>('');
   const [validInputs, setValidInputs] = useState<boolean>(true)
   const [disabledBtn, setDisabledBtn] = useState<boolean>(false)
+  // const [date, setDate] = useState<>('');
+
   const { toast } = useToast()
 
 
   const form = useForm<z.infer<typeof mainFormValidation>>({
     resolver: zodResolver(mainFormValidation),
     defaultValues: {
-      date: new Date(),
+
+      time: "00:00",
       windSpeed: "",
       sunshine: "",
       airPressure: "",
       radiation: "",
       airTemperature: "",
-      humidity: "",
+      humidity: ""
     },
   })
+
+
+  const handleDateChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setDate(event.target.value);
+  };
+
+
+
 
   const onSubmit = (values: z.infer<typeof mainFormValidation>) => {
     console.log("values", values)
     setDisabledBtn(true)
+    const validDate = dateSchema.parse(date);
+    const dateComponents = getDateComponents(validDate);
+    const timeComponents = values.time.split(':').map(Number);
+
+    // const validDate = dateSchema.parse(date);
+
+
     // the values will be recieved here. now we can use it as we wish
     const result = {
-      date: values.date,
+      date: dateComponents,
+      time: { hours: timeComponents[0], minutes: timeComponents[1] },
       windSpeed: Number(values.windSpeed),
       sunshine: Number(values.sunshine),
       airPressure: Number(values.airPressure),
@@ -85,7 +111,7 @@ const page = () => {
 
 
 
-          <FormField
+          {/* <FormField
             control={form.control}
             name="date"
             render={({ field }) => (
@@ -120,16 +146,41 @@ const page = () => {
                     />
                   </PopoverContent>
                 </Popover>
-                {/* <FormDescription>
-                  this will be the description
-                </FormDescription> */}
+            
                 <FormMessage />
               </FormItem>
             )}
+          /> */}
+
+
+          <Label htmlFor="date">Select date:</Label>
+          <Input
+            type="date"
+            id="date"
+            name="date"
+            value={date}
+            onChange={handleDateChange}
           />
 
 
 
+
+          <FormField
+            control={form.control}
+            name="time"
+            render={({ field }) => (
+
+              <FormItem className="w-full flex flex-col gap-1">
+                <FormLabel>Select Time</FormLabel>
+                <FormControl>
+                  <Input type="time" placeholder="Enter Time" {...field} />
+                </FormControl>
+                {/* <FormDescription>This is  field</FormDescription> */}
+                <FormMessage />
+              </FormItem>
+
+            )}
+          />
 
           <FormField
             control={form.control}
