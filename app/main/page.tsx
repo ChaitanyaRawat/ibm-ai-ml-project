@@ -152,15 +152,17 @@ const page = () => {
             )}
           /> */}
 
+          <FormItem className="w-full flex flex-col gap-1">
 
-          <Label htmlFor="date">Select date:</Label>
-          <Input
-            type="date"
-            id="date"
-            name="date"
-            value={date}
-            onChange={handleDateChange}
-          />
+            <Label className="self-start" htmlFor="date">Select date:</Label>
+            <Input
+              type="date"
+              id="date"
+              name="date"
+              value={date}
+              onChange={handleDateChange}
+            />
+          </FormItem>
 
 
 
